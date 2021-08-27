@@ -1,17 +1,16 @@
+package ui
+
 import kotlinx.html.InputType
 import kotlinx.html.js.onChangeFunction
 import org.w3c.dom.HTMLInputElement
 import react.*
-import react.dom.attrs
-import react.dom.div
-import react.dom.h1
-import react.dom.input
+import react.dom.*
 
 external interface WelcomeProps : RProps {
     var name: String
 }
 
-//fun RBuilder.welcome(name: String) = child(welcome) {
+//fun RBuilder.ui.welcome(name: String) = child(ui.welcome) {
 //    attrs.name = name
 //}
 // or:
@@ -20,14 +19,14 @@ fun RBuilder.welcome(handler: WelcomeProps.() -> Unit) = child(welcome) {
         handler()
     }
 }
-// so we can: welcome { name = "Kotlin" }
+// so we can: ui.welcome { name = "Kotlin" }
 
 //@JsExport
 private val welcome = functionalComponent<WelcomeProps> { props ->
     //var (name, setName) = useState(props.name)
     // or
     var name by useState(props.name)
-    h1 {
+    h2 {
         +"Hello, $name"
     }
 
