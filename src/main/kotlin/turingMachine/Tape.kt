@@ -1,21 +1,21 @@
 package turingMachine
 
-class Belt(
+class Tape(
     private val default: Char = Char.MIN_VALUE,
     private val values: List<Char> = listOf(default, default, default)
 ) {
     companion object private fun withIndex(
         newIndex: Int = index,
         valuesTransform: () -> List<Char> = { values }
-    ): Belt {
-        return Belt(values = valuesTransform()).apply { index = newIndex }
+    ): Tape {
+        return Tape(values = valuesTransform()).apply { index = newIndex }
     }
 
     private var index = if (values.size > 1) 1 else 0
 
     fun value() = values[index]
 
-    fun left(): Belt {
+    fun left(): Tape {
         return if (index <= 0) {
             withIndex { listOf(default) + values }
         }  else {
@@ -23,7 +23,7 @@ class Belt(
         }
     }
 
-    fun right(): Belt {
+    fun right(): Tape {
         val newIndex = index + 1
         return if (values.size == newIndex) {
             withIndex(newIndex) { values.plus(default) }
@@ -32,7 +32,9 @@ class Belt(
         }
     }
 
-    fun write(newValue: Char): Belt {
+    fun reset() = withIndex(0)
+
+    fun write(newValue: Char): Tape {
         return withIndex() {
             values.mapIndexed { i, c ->
                 return@mapIndexed if (i == index) newValue else c
